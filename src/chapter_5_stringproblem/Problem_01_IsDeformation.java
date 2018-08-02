@@ -56,8 +56,8 @@ public class Problem_01_IsDeformation {
 		String A = "abcabcabc";
 		String B = "bcacbaacb";
 		System.out.println(isDeformation(A, B));
-		A = "ÄãºÃÄãÄãÄã";
-		B = "ºÃÅ¶ÄãÄãÄã";
+		A = "ä½ å¥½å•Šä½ å¥½å•Šä½ å¥½å•Š";
+		B = "å¥½å•Šä½ å•Šå¥½ä½ ä½ å•Šä½ ";
 		System.out.println(isDeformationUsingMap(A, B));
 	}
 
