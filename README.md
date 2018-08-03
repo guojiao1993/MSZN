@@ -2,6 +2,49 @@
 - 本项目是《左程云. 程序员代码面试指南：IT名企算法与数据结构题目最优解[M]. 电子工业出版社, 2015》的配套代码  
 - 使用Eclipse开发和测试
 
+# 第4章 递归和动态规划
+## 数组中的最长连续序列
+- [100,4,200,3,1,2]，最长连续序列是[1,2,3,4]，所以返回4
+- 动态规划，利用哈希表记录出现的数及其最大长度
+- 这里有一个很有意思的地方，就是一个数的最大长度是前向数还是向后数是视情况而定的，比如4，刚开始时是1，后来有了5，在merge时就是[4,5]，将4的长度更新为2，此时是往后数的长度，再遇到3时，还是往后数。但是如果一开始是[3,4]，那就不一样了，4的长度同样更新为2，但此时是往前数的长度，再遇到5时，还是往前数。
+- 只记录序列中的最大和最小值的长度，因为中间的值不会再被用到了。
+- 遇到一个数时，要尝试其前后相邻的数，前后数的顺序没有要求。
+
+```java
+public static int longestConsecutive(int[] arr) {
+	if (arr == null || arr.length == 0) {
+		return 0;
+	}
+	int max = 1;
+	HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+	for (int i = 0; i < arr.length; i++) {
+		if (!map.containsKey(arr[i])) {
+			map.put(arr[i], 1);
+			if (map.containsKey(arr[i] - 1)) {
+				// 与前面的数进行合并
+				max = Math.max(max, merge(map, arr[i] - 1, arr[i]));
+			}
+			if (map.containsKey(arr[i] + 1)) {
+				// 与后面的数进行合并
+				max = Math.max(max, merge(map, arr[i], arr[i] + 1));
+			}
+		}
+	}
+	return max;
+}
+
+public static int merge(HashMap<Integer, Integer> map, int less, int more) {
+	// 对于less，其长度是往前数
+	int left = less - map.get(less) + 1;
+	// 对于more，其长度是往后数
+	int right = more + map.get(more) - 1;
+	int len = right - left + 1;
+	// 更新最大最小值的长度，对于最小值，是往后（中心）数，对于最大值，是往前（中心）数
+	map.put(left, len);
+	map.put(right, len);
+	return len;
+}
+```
 # 第5章 字符串问题
 ## 判断两个字符串是否互为变形词
 - 变形词：两个字符串中出现的字符种类和每种字符出现的次数都相同。  
