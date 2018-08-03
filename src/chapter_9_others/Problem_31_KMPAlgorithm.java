@@ -32,8 +32,6 @@ public class Problem_31_KMPAlgorithm {
 	 * next[i]的含义是在ms[i]之前的字符串ms[0..i-1]中，必须以ms[i-1]结尾的后缀子串（不包括ms[0]）
 	 * 与必须以ms[0]开头的前缀子串（不包含ms[i-1]）的最大匹配长度是多少。
 	 * <p>注意，next[0]=-1，next[1]=0
-	 * @param ms
-	 * @return
 	 */
 	public static int[] getNextArray(char[] ms) {
 		if (ms.length == 1) {
