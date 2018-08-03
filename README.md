@@ -1,6 +1,7 @@
 # 面试指南
-本项目是《左程云. 程序员代码面试指南：IT名企算法与数据结构题目最优解[M]. 电子工业出版社, 2015》的配套代码  
-使用Eclipse开发和测试
+- 本项目是《左程云. 程序员代码面试指南：IT名企算法与数据结构题目最优解[M]. 电子工业出版社, 2015》的配套代码  
+- 使用Eclipse开发和测试
+
 # 第5章 字符串问题
 ## 判断两个字符串是否互为变形词
 - 变形词：两个字符串中出现的字符种类和每种字符出现的次数都相同。  
@@ -66,6 +67,15 @@ public static boolean isDeformationUsingMap(String str1, String str2) {
 - 注意到，str+str构成的字符串拥有所有的旋转词子串，所以问题转化为在str1中寻找和str2相同的子串
 - KMP算法可以在O(N)的时间复杂度下完成字符串匹配问题
 
+```java
+public static boolean isRotation(String a, String b) {
+	if (a == null || b == null || a.length() != b.length()) {
+		return false;
+	}
+	// getIndexOf()为KMP算法
+	return getIndexOf(b + b, a) != -1;
+}
+```
 # 第9章 其他题目
 ## KMP算法
 - KMP算法是由Donald Knuth、Vaughan Pratt和James H. Morris于1977年联合发明的。
