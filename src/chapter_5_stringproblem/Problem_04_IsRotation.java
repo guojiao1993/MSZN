@@ -6,8 +6,7 @@ public class Problem_04_IsRotation {
 		if (a == null || b == null || a.length() != b.length()) {
 			return false;
 		}
-		String b2 = b + b;
-		return getIndexOf(b2, a) != -1;
+		return getIndexOf(b + b, a) != -1;
 	}
 
 	// KMP Algorithm
@@ -55,10 +54,11 @@ public class Problem_04_IsRotation {
 	}
 
 	public static void main(String[] args) {
-		String str1 = "yunzuocheng";
-		String str2 = "zuochengyun";
-		System.out.println(isRotation(str1, str2));
-
+		System.out.println(isRotation("zuochengyun", "yunzuocheng"));
+		System.out.println(isRotation("zuochengyun", "zuochengyun"));
+		System.out.println(isRotation("zuochengyun", "yunzuochenz"));
+		System.out.println(isRotation("你好啊你好啊", "啊你好啊你好"));
+		System.out.println(isRotation("你好啊你好啊", "啊你好好你好"));
 	}
 
 }
