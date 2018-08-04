@@ -3,6 +3,53 @@
 - 使用Eclipse开发和测试
 
 # 第4章 递归和动态规划
+## 最小编辑代价
+- 给定插入、删除、替换的代价，求将字符串str1编辑成str2的最小代价
+- 用动态规划思想，步步为营，时间和空间复杂度都为O(M*N)
+- 每个字符串最开始的时候都是空白字符串，即""，要编辑为任何非空字符都是插入的代价
+- 第一个字符str1为竖列，str2为横列，加上空白字符串，dp矩阵大小为[row1 + 1][col2 + 1]
+- dp[i][j]表示将str1[0 .. i]编辑为str2[0 .. j]的最小代价
+- 最终结果为dp[row1][col2]
+ 
+dp矩阵中[i][j]只可能由四种情况而来：
+1. 先删str1[i]，再将str1[0 .. i - 1]编辑成str2[0 .. j]，此时代价为dc + dp[i - 1][j]
+1. 先将str1[0..i]编辑为str[0 .. j - 1]，再插入字符str2[j]，此时代价为ic + dp[i][j - 1]
+1. 如果str1[i]和str2[j]不等，则先替换，再将str1[0 .. i - 1]替换为str2[0 .. j - 1]，此时代价为rc + dp[i - 1][j - 1]
+1. 如果str1[i]和str2[j]相等，则无需替换，可只将str1[0 .. i - 1]替换为str2[0 .. j - 1]，此时代价为dp[i - 1][j - 1]
+
+对于dp[i][j]，选取上述四种情况的最小值即可。
+
+```java
+public static int minCost1(String str1, String str2, int ic, int dc, int rc) {
+	if (str1 == null || str2 == null) {
+		return 0;
+	}
+	char[] chs1 = str1.toCharArray();
+	char[] chs2 = str2.toCharArray();
+	int row = chs1.length + 1;
+	int col = chs2.length + 1;
+	int[][] dp = new int[row][col];
+	for (int i = 1; i < row; i++) {
+		dp[i][0] = dc * i;
+	}
+	for (int j = 1; j < col; j++) {
+		dp[0][j] = ic * j;
+	}
+	for (int i = 1; i < row; i++) {
+		for (int j = 1; j < col; j++) {
+			if (chs1[i - 1] == chs2[j - 1]) {
+				dp[i][j] = dp[i - 1][j - 1];
+			} else {
+				dp[i][j] = dp[i - 1][j - 1] + rc;
+			}
+			dp[i][j] = Math.min(dp[i][j], dp[i][j - 1] + ic);
+			dp[i][j] = Math.min(dp[i][j], dp[i - 1][j] + dc);
+		}
+	}
+	return dp[row - 1][col - 1];
+}
+```
+
 ## 数组中的最长连续序列
 - [100,4,200,3,1,2]，最长连续序列是[1,2,3,4]，所以返回4
 - 动态规划，利用哈希表记录出现的数及其最大长度

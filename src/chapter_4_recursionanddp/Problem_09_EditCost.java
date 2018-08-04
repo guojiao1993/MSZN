@@ -39,7 +39,8 @@ public class Problem_09_EditCost {
 		char[] chs2 = str2.toCharArray();
 		char[] longs = chs1.length >= chs2.length ? chs1 : chs2;
 		char[] shorts = chs1.length < chs2.length ? chs1 : chs2;
-		if (chs1.length < chs2.length) { // str2½Ï³¤¾Í½»»»icºÍdcµÄÖµ
+		// str2è¾ƒé•¿å°±äº¤æ¢icå’Œdcçš„å€¼
+		if (chs1.length < chs2.length) {
 			int tmp = ic;
 			ic = dc;
 			dc = tmp;
@@ -49,10 +50,12 @@ public class Problem_09_EditCost {
 			dp[i] = ic * i;
 		}
 		for (int i = 1; i <= longs.length; i++) {
-			int pre = dp[0]; // pre±íÊ¾×óÉÏ½ÇµÄÖµ
+			// preè¡¨ç¤ºå·¦ä¸Šè§’çš„å€¼
+			int pre = dp[0];
 			dp[0] = dc * i;
 			for (int j = 1; j <= shorts.length; j++) {
-				int tmp = dp[j]; // dp[j]Ã»¸üÐÂÇ°ÏÈ±£´æÏÂÀ´
+				// dp[j]æ²¡æ›´æ–°å‰å…ˆä¿å­˜ä¸‹æ¥
+				int tmp = dp[j];
 				if (longs[i - 1] == shorts[j - 1]) {
 					dp[j] = pre;
 				} else {
@@ -60,33 +63,33 @@ public class Problem_09_EditCost {
 				}
 				dp[j] = Math.min(dp[j], dp[j - 1] + ic);
 				dp[j] = Math.min(dp[j], tmp + dc);
-				pre = tmp; // pre±ä³Édp[j]Ã»¸üÐÂÇ°µÄÖµ
+				// preå˜æˆdp[j]æ²¡æ›´æ–°å‰çš„å€¼
+				pre = tmp; 
 			}
 		}
 		return dp[shorts.length];
 	}
 
 	public static void main(String[] args) {
-		String str1 = "ab12cd3";
-		String str2 = "abcdf";
-		System.out.println(minCost1(str1, str2, 5, 3, 2));
-		System.out.println(minCost2(str1, str2, 5, 3, 2));
-
-		str1 = "abcdf";
-		str2 = "ab12cd3";
-		System.out.println(minCost1(str1, str2, 3, 2, 4));
-		System.out.println(minCost2(str1, str2, 3, 2, 4));
-
-		str1 = "";
-		str2 = "ab12cd3";
-		System.out.println(minCost1(str1, str2, 1, 7, 5));
-		System.out.println(minCost2(str1, str2, 1, 7, 5));
-
-		str1 = "abcdf";
-		str2 = "";
-		System.out.println(minCost1(str1, str2, 2, 9, 8));
-		System.out.println(minCost2(str1, str2, 2, 9, 8));
-
+		System.out.println("abc" + "\t" + "adc" + "\t" + 5 + "\t" + 3 + "\t" + 2);
+		System.out.println(minCost1("abc", "adc", 5, 3, 2) + "\t" + minCost2("abc", "adc", 5, 3, 2));
+		System.out.println();
+		
+		System.out.println("abc" + "\t" + "adc" + "\t" + 5 + "\t" + 3 + "\t" + 100);
+		System.out.println(minCost1("abc", "adc", 5, 3, 100) + "\t" + minCost2("abc", "adc", 5, 3, 100));
+		System.out.println();
+		
+		System.out.println("abcd" + "\t" + "abcd" + "\t" + 1 + "\t" + 1 + "\t" + 1);
+		System.out.println(minCost1("abcd", "abcd", 1, 1, 1) + "\t" + minCost2("abcd", "abcd", 1, 1, 1));
+		System.out.println();
+		
+		System.out.println("abcd" + "\t" + "dabcd" + "\t" + 1 + "\t" + 1 + "\t" + 1);
+		System.out.println(minCost1("abcd", "dabcd", 1, 1, 1) + "\t" + minCost2("abcd", "dabcd", 1, 1, 1));
+		System.out.println();
+		
+		System.out.println("ab12cd3" + "\t" + "abcdf" + "\t" + 5 + "\t" + 3 + "\t" + 2);
+		System.out.println(minCost1("ab12cd3", "abcdf", 5, 3, 2) + "\t" + minCost2("ab12cd3", "abcdf", 5, 3, 2));
+		System.out.println();
 	}
 
 }
