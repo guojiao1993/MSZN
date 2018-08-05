@@ -152,6 +152,54 @@ public static boolean isDeformationUsingMap(String str1, String str2) {
 	return true;
 }
 ```
+## 字符串中数字字串的求和
+1. 忽略小数点
+1. 对于'-'，连续偶数为正，奇数为负
+1. 使用三个变量res、num、posi来表示结果值、目前值和符号值
+1. 单独处理符号，posi初始为正，遇'-'时，判断前一位是否为'-'，若是则翻转，否则为负
+1. 处理数字，连续乘十再相加即可，注意符号
+1. 结尾时再加上最后的结果
+
+```java
+public static int numSum(String str) {
+	if (str == null) {
+		return 0;
+	}
+	char[] charArr = str.toCharArray();
+	int res = 0;
+	int num = 0;
+	int posi = 1;
+	int cur = 0;
+	for (int i = 0; i < charArr.length; i++) {
+		cur = charArr[i] - '0';
+		// 处理非数字字符
+		if (cur < 0 || cur > 9) {
+			// 此时要将数字值加到结果值中，然后数字值清零
+			res += num;
+			num = 0;
+			// 处理'-'
+			if (charArr[i] == '-') {
+				// 处理连续的'-'时，连续取反
+				if (i - 1 > -1 && charArr[i - 1] == '-') {
+					posi *= -1;
+				// 初次遇到'-'，直接置负
+				} else {
+					posi = -1;
+				}
+			// 对于其他非数字字符，直接将正负符号位置正
+			} else {
+				posi = 1;
+			}
+		// 对于连续数字中的值，直接累乘累加，注意正负符号
+		} else {
+			num = num * 10 + posi * cur;
+		}
+	}
+	// 最后时需要再将数字值加到结果值中，发生在后面没有非数字字符来触发的情况
+	res += num;
+	return res;
+}
+```
 ## 判断两个字符串是否互为旋转词
 1. 要求解法的复杂度是O(N)
 1. 注意到，str+str构成的字符串拥有所有的旋转词子串，所以问题转化为在str1中寻找和str2相同的子串
